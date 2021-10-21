@@ -17,10 +17,28 @@ void getContours(Mat imgDil, Mat img) {
 	findContours(imgDil, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 	drawContours(img, contours, -1, Scalar(255, 0, 255), 5);
 	//Color is purple and -1 designates printing all the contours
-
 	for (int i = 0; i < contours.size(); i++) {
+	
 		int area = contourArea(contours[i]);
 		cout << area << endl;
+		vector<vector<Point>> conPoly(contours.size());
+		vector<Rect> boundRect(contours.size());
+		string ObjectType;
+		if (area > 1000) {
+			float peri = arcLength(contours[i], true);
+			approxPolyDP(contours[i], conPoly[i], 0.02 * peri, true);
+			drawContours(img, conPoly, i, Scalar(255, 0, 255), 2);
+			cout << conPoly[i].size() << endl;
+			/* boundRect[i] = boundingRect(conPoly[i]);*/
+			int objCor = (int)conPoly[i].size();
+			if (objCor == 3)
+				ObjectType = "Triangle";
+			else if (objCor == 4)
+				ObjectType = "Rectangle";
+			else
+				ObjectType = "Any other shape"
+		}
+		
 	}
 }
 
