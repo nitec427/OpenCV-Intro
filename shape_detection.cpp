@@ -37,7 +37,7 @@ void getContours(Mat imgDil, Mat img) {
 				ObjectType = "Rectangle";
 			else
 				ObjectType = "Any other shape"
-		}
+		};
 		
 	}
 }
